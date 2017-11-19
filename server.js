@@ -17,18 +17,20 @@ app.use(bodyParser.json())
 //for parsing urls
 app.use(bodyParser.urlencoded({ extended: false }))
 
-
+//routing middlewares
+app.use('/users', require('./routes/users'))
+app.use('/api', require('./routes/api'))
 
 //error handling middleware
 app.use((err, req, res, next)=>{
-    if (err.name === 'UnauthorizedError')
+    if (err.name === 'UnauthorizedError'){
         res.status(401).send(err);
     }
     else {
       console.error(err.stack)
       next(err);
     }
-)
+})
 
 //set port to env variable for production or 3000 for development
 const Port = process.env.PORT || 3005
