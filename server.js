@@ -6,7 +6,9 @@ const express = require('express'),
       logger = require('morgan'),
       bodyParser = require('body-parser'),
       path = require('path'),
-      ExpressValidator = require('express-validator');
+      ExpressValidator = require('express-validator'),
+      expressJWT  = require('express-jwt'),
+      jwt         = require('jsonwebtoken');
 
 
 //instantiate app
