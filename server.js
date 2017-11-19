@@ -25,7 +25,8 @@ app.use((err, req, res, next)=>{
         res.status(401).send(err);
     }
     else {
-        next(err);
+      console.error(err.stack)
+      next(err);
     }
 )
 
