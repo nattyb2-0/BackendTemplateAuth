@@ -12,6 +12,7 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "express-validator": "^4.3.0",
     "morgan": "^1.9.0",
     "path": "^0.12.7",
     "pg-promise": "^7.3.2"
