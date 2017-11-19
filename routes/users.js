@@ -6,6 +6,11 @@ UserRouter.route('/')
     res.send('works')
   })
 
+UserRouter.route('/signup')
+  .post((req,res,next)=>{
+    res.send('works')
+  })
+
 
 
 module.exports = UserRouter
