@@ -22,6 +22,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json())
 //for parsing urls
 app.use(bodyParser.urlencoded({ extended: false }))
+//to allow cors ... cross site requests
+app.use((req,res,next)=>{
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
+  next();
+})
 //to validate user inputs
 app.use(ExpressValidator())
 app.use(expressJWT({secret: process.env.SECRET}).unless({path: ['/users/login', '/users/signup', '/auth']}));
