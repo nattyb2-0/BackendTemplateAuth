@@ -1,8 +1,13 @@
 //require to connect to db
 const db = require('../db/connections')
 
+//modules to has password
+var bcrypt = require('bcrypt');
+const SALT = 10;
+
 //require to validate user input
 const ExpressValidator = require('express-validator');
+
 
 module.exports ={
 
@@ -28,7 +33,7 @@ module.exports ={
        else{
         let user= new Object;
          user.name = req.body.username;
-         user.password = req.body.password;
+         user.password = user.password=bcrypt.hashSync(req.body.password, salt);
          user.email = req.body.email
 
         db.none(`INSERT INTO users (username, email,password) VALUES ($1, $2, $3); returning id`,
@@ -45,3 +50,4 @@ module.exports ={
 
 
 }
+
