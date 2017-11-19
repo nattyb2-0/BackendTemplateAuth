@@ -24,6 +24,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 //to validate user inputs
 app.use(ExpressValidator())
+app.use(expressJWT({secret: process.env.SECRET}).unless({path: ['/users/login', '/users/signup', '/auth']}));
 
 //routing middlewares
 app.use('/users', require('./routes/users'))

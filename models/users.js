@@ -1,9 +1,12 @@
 //require to connect to db
 const db = require('../db/connections')
 
-//modules to has password
+//modules to hash password
 var bcrypt = require('bcrypt');
 const SALT = 10;
+
+//module to create json web token
+const jwt = require('jsonwebtoken');
 
 //require to validate user input
 const ExpressValidator = require('express-validator');
@@ -46,8 +49,39 @@ module.exports ={
         .catch(error => console.log(error))
       }
 
-}
+},
+  authenticate: (req, res, next)=> {
+    req.checkBody('username', 'Username cannot be empty!').notEmpty()
+    req.checkBody('username', 'Username must be between 4 - 15 characters').len(4,15)
+    req.checkBody('password', 'password must be between 8 - 100 characters').len(4,100)
+    req.checkBody('password', 'password must include one lower case, 1 uppercase, and number, and a special character')
+    .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")
 
-
+    const errors = req.validationErrors()
+     if(errors){
+        console.log(` error: ${JSON.stringify(errors)}`)
+        res.status(404).json(errors)
+      }
+      else{
+        let user= new Object;
+         user.name = req.body.username;
+         user.password = req.body.password;
+         console.log(req.body.password)
+        db.one(`SELECT * FROM users WHERE username = $1;`,[user.name] )
+          .then((data) => {
+            console.log(data.password)
+            const match = bcrypt.compareSync(user.password, data.password);
+            if (match) {
+              const myToken = jwt.sign({username: user.username}, process.env.SECRET, { expiresIn: 129600 });
+              res.token = myToken;
+              next()
+            }
+            else {
+              res.status(500).send('fuck u fite me irl');
+            }
+        })
+        .catch(error => next(error))
+      }
+  }
 }
 

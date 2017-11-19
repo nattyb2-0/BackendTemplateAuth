@@ -11,6 +11,11 @@ UserRouter.route('/signup')
     res.status(200).json(res.id)
   })
 
+UserRouter.route('/login')
+  .post(UserModel.authenticate,(req,res,next)=>{
+    res.status(200).json(res.token)
+  })
+
 
 
 module.exports = UserRouter
