@@ -1,3 +1,6 @@
+//require dotenv module for enviromental variable to be readable
+require('dotenv').config({ silent: true });
+
 // require our dependencies for the application
 const express = require('express'),
       logger = require('morgan'),
