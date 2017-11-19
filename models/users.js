@@ -33,14 +33,14 @@ module.exports ={
        else{
         let user= new Object;
          user.name = req.body.username;
-         user.password = user.password=bcrypt.hashSync(req.body.password, salt);
+         user.password = user.password=bcrypt.hashSync(req.body.password, SALT);
          user.email = req.body.email
 
-        db.none(`INSERT INTO users (username, email,password) VALUES ($1, $2, $3); returning id`,
+        db.none(`INSERT INTO users (username, email,password) VALUES ($1, $2, $3)`,
             [user.name, user.email, user.password])
           .then( (results) => {
            console.log('user created!')
-           res.status(200).json(results)
+           res.id = results
            next()
         })
         .catch(error => console.log(error))

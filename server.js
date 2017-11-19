@@ -5,7 +5,8 @@ require('dotenv').config({ silent: true });
 const express = require('express'),
       logger = require('morgan'),
       bodyParser = require('body-parser'),
-      path = require('path');
+      path = require('path'),
+      ExpressValidator = require('express-validator');
 
 
 //instantiate app
@@ -19,6 +20,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json())
 //for parsing urls
 app.use(bodyParser.urlencoded({ extended: false }))
+//to validate user inputs
+app.use(ExpressValidator())
 
 //routing middlewares
 app.use('/users', require('./routes/users'))

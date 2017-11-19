@@ -1,5 +1,5 @@
 const UserRouter = require('express').Router()
-
+const UserModel = require('../models/users')
 
 UserRouter.route('/')
   .get((req,res,next)=>{
@@ -7,8 +7,8 @@ UserRouter.route('/')
   })
 
 UserRouter.route('/signup')
-  .post((req,res,next)=>{
-    res.send('works')
+  .post(UserModel.createUser,(req,res,next)=>{
+    res.status(200).json(res.id)
   })
 
 
