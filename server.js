@@ -17,6 +17,18 @@ app.use(bodyParser.json())
 //for parsing urls
 app.use(bodyParser.urlencoded({ extended: false }))
 
+
+
+//error handling middleware
+app.use((err, req, res, next)=>{
+    if (err.name === 'UnauthorizedError')
+        res.status(401).send(err);
+    }
+    else {
+        next(err);
+    }
+)
+
 //set port to env variable for production or 3000 for development
 const Port = process.env.PORT || 3005
 
